@@ -198,6 +198,10 @@
 # define MODE_FOLLOW_ENABLED AP_FOLLOW_ENABLED
 #endif
 
+#ifndef MODE_DRAWSTAR_ENABLED
+# define MODE_DRAWSTAR_ENABLED ENABLED
+#endif
+
 //////////////////////////////////////////////////////////////////////////////
 // Guided mode - control vehicle's position or angles from GCS
 #ifndef MODE_GUIDED_ENABLED

@@ -213,6 +213,9 @@ public:
     friend class ModeFlip;
     friend class ModeFlowHold;
     friend class ModeFollow;
+    
+    friend class ModeDrawStar;
+
     friend class ModeGuided;
     friend class ModeLand;
     friend class ModeLoiter;
@@ -1005,6 +1008,11 @@ private:
 #if MODE_FOLLOW_ENABLED == ENABLED
     ModeFollow mode_follow;
 #endif
+
+#if MODE_DRAWSTAR_ENABLED == ENABLED
+    ModeDrawStar mode_DrawStar;
+#endif
+
 #if MODE_GUIDED_ENABLED == ENABLED
     ModeGuided mode_guided;
 #endif

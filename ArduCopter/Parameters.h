@@ -676,7 +676,8 @@ public:
 #if MODE_GUIDED_ENABLED == ENABLED
     AP_Float guided_timeout;
 #endif
-
+    AP_Float star_radius_cm;
+    
     AP_Int8                 surftrak_mode;
     AP_Int8                 failsafe_dr_enable;
     AP_Int16                failsafe_dr_timeout;
