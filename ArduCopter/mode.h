@@ -1164,10 +1164,13 @@ public:
 
     bool requires_GPS() const override { return true; }
     bool has_manual_throttle() const override { return false; }
-    bool allows_arming(AP_Arming::Method method) const override;
+    bool allows_arming(AP_Arming::Method method) const override { return true; };
     bool is_autopilot() const override { return true; }
     bool has_user_takeoff(bool must_navigate) const override { return false; }
     bool in_guided_mode() const override { return true; }
+
+    // return guided mode timeout in milliseconds. Only used for velocity, acceleration, angle control, and angular rate control
+    uint32_t get_timeout_ms() const;
 
 protected:
 

@@ -111,7 +111,7 @@ void ModeDrawStar::run()
 void ModeDrawStar::velaccel_control_start()
 {
     // set guided_mode to velocity controller
-    guided_mode = SubMode::VelAccel;
+//    guided_mode = SubMode::VelAccel;
 
     // initialise position controller
     pva_control_start();
@@ -164,92 +164,10 @@ void ModeDrawStar::pos_control_run()
     attitude_control->input_thrust_vector_heading(pos_control->get_thrust_vector(), auto_yaw.get_heading());
 }
 
-const Vector3p &ModeDrawStar::get_target_pos() const
-{
-    return guided_pos_target_cm;
-}
-
-const Vector3f& ModeDrawStar::get_target_vel() const
-{
-    return guided_vel_target_cms;
-}
-
-const Vector3f& ModeDrawStar::get_target_accel() const
-{
-    return guided_accel_target_cmss;
-}
-
-uint32_t ModeDrawStar::wp_distance() const
-{
-    switch(guided_mode) {
-    case SubMode::WP:
-        return wp_nav->get_wp_distance_to_destination();
-    case SubMode::Pos:
-        return get_horizontal_distance_cm(inertial_nav.get_position_xy_cm(), guided_pos_target_cm.tofloat().xy());
-    case SubMode::PosVelAccel:
-        return pos_control->get_pos_error_xy_cm();
-    default:
-        return 0;
-    }
-}
-
-int32_t ModeDrawStar::wp_bearing() const
-{
-    switch(guided_mode) {
-    case SubMode::WP:
-        return wp_nav->get_wp_bearing_to_destination();
-    case SubMode::Pos:
-        return get_bearing_cd(inertial_nav.get_position_xy_cm(), guided_pos_target_cm.tofloat().xy());
-    case SubMode::PosVelAccel:
-        return pos_control->get_bearing_to_target_cd();
-    case SubMode::TakeOff:
-    case SubMode::Accel:
-    case SubMode::VelAccel:
-    case SubMode::Angle:
-        // these do not have bearings
-        return 0;
-    }
-    // compiler guarantees we don't get here
-    return 0.0;
-}
-
-float ModeDrawStar::crosstrack_error() const
-{
-    switch (guided_mode) {
-    case SubMode::WP:
-        return wp_nav->crosstrack_error();
-    case SubMode::Pos:
-    case SubMode::TakeOff:
-    case SubMode::Accel:
-    case SubMode::VelAccel:
-    case SubMode::PosVelAccel:
-        return pos_control->crosstrack_error();
-    case SubMode::Angle:
-        // no track to have a crosstrack to
-        return 0;
-    }
-    // compiler guarantees we don't get here
-    return 0;
-}
-
 // return guided mode timeout in milliseconds. Only used for velocity, acceleration, angle control, and angular rates
 uint32_t ModeDrawStar::get_timeout_ms() const
 {
     return MAX(copter.g2.guided_timeout, 0.1) * 1000;
-}
-
-// pause guide mode
-bool ModeDrawStar::pause()
-{
-    _paused = true;
-    return true;
-}
-
-// resume guided mode
-bool ModeDrawStar::resume()
-{
-    _paused = false;
-    return true;
 }
 
 #endif
